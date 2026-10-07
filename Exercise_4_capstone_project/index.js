@@ -14,12 +14,15 @@ import { notFound } from './middlewares/notFound.js';
 import routes from './routes/routes.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './util/swagger.js';
-
+import { apiThrotle } from './middlewares/throtle.js';
 
 app.use(helmet({ hidePoweredBy: true }));
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    origin: [process.env.FRONTEND_URL, process.env.BACKEND_URL, process.env.BACKEND_URL_PROD],
+}));
 app.use(express.json());
+app.use(apiThrotle);
 
 
 app.use('/api', routes);
