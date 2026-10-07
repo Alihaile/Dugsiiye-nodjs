@@ -50,10 +50,10 @@ export const getProfileInfo = async (req, res) => {
     }
 }
 
-export const dashboard = async (req, res) => {
+export const overview = async (req, res) => {
     try {
-        res.status(200).json({ message: 'Welcome to the admin dashboard' });
+        res.status(200).json({ message: 'Welcome to the admin overview' });
     } catch (error) {
-        throw new AppError('Error accessing dashboard', 500);
+        throw new AppError('Error accessing overview', 500);
     }
 }

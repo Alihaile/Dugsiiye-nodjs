@@ -12,7 +12,7 @@ const routes = express.Router();
 
 /**
  * @swagger
- * /auth/register:
+ * /api/auth/register:
  *   post:
  *     summary: Register a new system user
  *     tags: [Auth]
@@ -49,7 +49,7 @@ routes.post('/register', register);
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     summary: Authenticate user credentials and return bearer access token
  *     tags: [Auth]
@@ -90,7 +90,7 @@ routes.post('/login', login);
 
 /**
  * @swagger
- * /auth/profile:
+ * /api/auth/profile:
  *   get:
  *     summary: Retrieve profile credentials of the logged-in entity
  *     tags: [Auth]

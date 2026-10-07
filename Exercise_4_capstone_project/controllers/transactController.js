@@ -1,4 +1,6 @@
-import Transaction from "../models/transaction";
+
+import Transaction from "../models/transaction.js";
+import { AppError } from "../util/appError.js";
 
 export const getTransactions = async (req, res, next) => {
     try {
@@ -11,6 +13,8 @@ export const getTransactions = async (req, res, next) => {
 
 export const addTransaction = async (req, res, next) => {
     try {
+
+        // throw new AppError(JSON.stringify({ ...req.body, userId: req.user._id }), 400);
         const transaction = new Transaction({ ...req.body, userId: req.user._id });
         await transaction.save();
 
@@ -22,7 +26,7 @@ export const addTransaction = async (req, res, next) => {
 
 export const updateTransaction = async (req, res, next) => {
     try {
-        const transaction = await Transaction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const transaction = await Transaction.findByIdAndUpdate(req.params.id, { ...req.body, userId: req.user._id }, { new: true });
 
         res.status(200).json(transaction);
     } catch (error) {
@@ -57,12 +61,14 @@ export const monthlySummary = async (req, res, next) => {
             {
                 $group: {
                     _id: {
-                        $dateToString: {
-                            format: "%Y-%m",
-                            date: "$date"
-                        }
+                        month: {
+                            $dateToString: {
+                                format: "%Y-%m",
+                                date: "$date"
+                            }
+                        },
+                        category: "$category"
                     },
-
                     income: {
                         $sum: {
                             $cond: [
@@ -88,7 +94,8 @@ export const monthlySummary = async (req, res, next) => {
             {
                 $project: {
                     _id: 0,
-                    month: "$_id",
+                    month: "$_id.month",
+                    category: "$_id.category",
                     income: 1,
                     expenses: 1,
                     net: {
@@ -99,7 +106,8 @@ export const monthlySummary = async (req, res, next) => {
 
             {
                 $sort: {
-                    month: 1
+                    month: 1,
+                    category: 1
                 }
             }
         ]);

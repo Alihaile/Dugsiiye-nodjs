@@ -1,5 +1,5 @@
 import express from 'express';
-import { dashboard } from '../controllers/authController.js';
+import { overview } from '../controllers/authController.js';
 import { authorize, protect } from '../middlewares/auth.js';
 const routes = express.Router();
 
@@ -13,7 +13,7 @@ const routes = express.Router();
 
 /**
  * @swagger
- * /admin/overview:
+ * /api/admin/overview:
  *   get:
  *     summary: Get high-level system metrics over historical data pools
  *     tags: [Admin]

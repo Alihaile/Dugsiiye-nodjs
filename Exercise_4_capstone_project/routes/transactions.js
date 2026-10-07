@@ -1,8 +1,8 @@
 import express from 'express';
-import { transactionSchema } from '../schemas/transactionSchema';
-import { zodValidator } from '../middlewares/zodValidator';
-import { protect } from '../middlewares/auth';
-import { addTransaction, deleteTransaction, getTransactions, updateTransaction, monthlySummary } from '../controllers/transactController';
+import { transactionSchema } from '../schemas/transactionSchema.js';
+import { zodValidator } from '../middlewares/zodValidator.js';
+import { protect } from '../middlewares/auth.js';
+import { addTransaction, deleteTransaction, getTransactions, updateTransaction, monthlySummary } from '../controllers/transactController.js';
 
 const routes = express.Router();
 
@@ -16,7 +16,7 @@ const routes = express.Router();
 
 /**
  * @swagger
- * /transactions:
+ * /api/transactions:
  *   get:
  *     summary: Get all transactions for the authenticated user
  *     tags: [Transactions]
@@ -29,8 +29,6 @@ const routes = express.Router();
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/TransactionResponse'
  *       401:
  *         description: Unauthorized - Valid JWT token missing
  */
@@ -38,7 +36,7 @@ routes.get('/', protect, getTransactions);
 
 /**
  * @swagger
- * /transactions:
+ * /api/transactions:
  *   post:
  *     summary: Create a new financial transaction
  *     tags: [Transactions]
@@ -49,24 +47,24 @@ routes.get('/', protect, getTransactions);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/TransactionInput'
+ *             $ref: '#'
  *     responses:
  *       201:
  *         description: Transaction logged successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/TransactionResponse'
+ *              $ref: '#'
  *       400:
  *         description: Validation failed (Zod validation restrictions unmet)
  *       401:
  *         description: Unauthorized
  */
-routes.post('/', protect, zodValidator(transactionSchema), addTransaction);
+routes.post('/', protect, addTransaction);
 
 /**
  * @swagger
- * /transactions/{id}:
+ * /api/transactions/{id}:
  *   put:
  *     summary: Modify details of a specific historical transaction
  *     tags: [Transactions]
@@ -84,14 +82,14 @@ routes.post('/', protect, zodValidator(transactionSchema), addTransaction);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/TransactionInput'
+ *             $ref: '#'
  *     responses:
  *       200:
  *         description: Entry successfully modified
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/TransactionResponse'
+ *               $ref: '#'
  *       400:
  *         description: Validation or payload formatting error
  *       401:
@@ -103,7 +101,7 @@ routes.put('/:id', protect, zodValidator(transactionSchema), updateTransaction);
 
 /**
  * @swagger
- * /transactions/{id}:
+ * /api/transactions/{id}:
  *   delete:
  *     summary: Remove an existing transaction record permanently
  *     tags: [Transactions]
@@ -128,7 +126,7 @@ routes.delete('/:id', protect, deleteTransaction);
 
 /**
  * @swagger
- * /transactions/monthly-summary:
+ * /api/transactions/monthly-summary:
  *   get:
  *     summary: Extract transaction metrics aggregated for a given calendar month
  *     tags: [Transactions]

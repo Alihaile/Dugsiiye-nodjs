@@ -5,10 +5,12 @@ export const zodValidator = (schema) => (req, res, next) => {
 
         if (!result.success) {
             const formatted = result.error.format();
+            console.log('Zod validation errors:', formatted);
             const formatedKeys = Object.keys(formatted).filter(key => key !== '_errors');
 
             return res.status(400).json({
                 success: false,
+                // formattedErrors: formatted,
                 message: 'Validation Error',
                 errors: formatedKeys.map((key) => ({
                     [key]: formatted[key],

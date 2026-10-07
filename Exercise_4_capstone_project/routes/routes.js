@@ -14,7 +14,7 @@ routes.use('/transactions', transactionRoutes);
 
 /**
  * @swagger
- * /categories:
+ * /api/categories:
  *   get:
  *     summary: Retrieve available transaction categories
  *     tags: [Transactions]

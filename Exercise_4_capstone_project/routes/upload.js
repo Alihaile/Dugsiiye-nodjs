@@ -15,7 +15,7 @@ const routes = express.Router();
 
 /**
  * @swagger
- * /upload/profile-picture:
+ * /api/upload/profile-picture:
  *   post:
  *     summary: Upload or update current profile avatar image
  *     tags: [Upload]

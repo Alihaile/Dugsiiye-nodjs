@@ -16,19 +16,19 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './util/swagger.js';
 
 
-app.use(helmet({ hidePoweredBy: true, xPoweredBy: false }));
+app.use(helmet({ hidePoweredBy: true }));
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
 
 app.use('/api', routes);
-app.use(notFound);
-app.use(errorHandler);
-
 //set up swagger
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+
+app.use(notFound);
+app.use(errorHandler);
 
 // connect database:
 mongoose.connect(process.env.MONGO_URI).then(() => {
